@@ -11,17 +11,17 @@ function cipher_text(plain_text::String)
 
     # Set the dimensions of a rectangle
     root_ = floor(√(length(text)))
-    rows = convert(Int64, root_)
-    rows*rows == length(text)    ?    cols = rows    :    cols = rows + 1
-    if rows*cols < length(text);    rows += 1;    end
+    R = convert(Int64, root_) # number of R
+    R^2 == length(text)    ?    C = R    :    C = R + 1
+    if R*C < length(text);    R += 1;    end
 
 
 
     # Define a rectangle and fill the rectangle with the chars
-    chars = [' '    for r = 1:rows, c = 1:cols]
+    chars = [' '    for r = 1:R, c = 1:C]
     for n = 0 : length(text)-1
-        c = n % cols + 1
-        r = n ÷ cols + 1
+        c = n%C + 1
+        r = n÷C + 1
         chars[r, c] = text[n+1]
     end
 
@@ -30,16 +30,16 @@ function cipher_text(plain_text::String)
     # Read out all but the last of the rectangle's columns
     # and add a space after each column
     result = ""
-    for c = 1 : cols-1
-        for r = 1 : rows;    result *= chars[r, c];    end
+    for c = 1 : C-1
+        for r = 1 : R;    result *= chars[r, c];    end
         result *= ' '
     end
 
 
 
     # Read out the last column
-    for r = 1 : rows;    result *= chars[r, cols];    end
+    for r = 1 : R;    result *= chars[r, C];    end
 
 
-    return result
+    result
 end
